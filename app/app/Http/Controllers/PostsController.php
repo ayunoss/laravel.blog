@@ -9,9 +9,11 @@ use App\Post;
 
 class PostsController extends Controller
 {
+    private $test;
+
     public function index() {
         $posts = Post::paginate(7);
-        return view('posts.index', compact('posts'));
+        return view('posts.index', ['posts' => $posts]);
 
     }
 
@@ -32,7 +34,6 @@ class PostsController extends Controller
     }
 
     public function addData(Request $request) {
-
         $validatedData = $request->validate([
             'title' => 'required|unique:posts|max:255',
             'description' => 'required',
@@ -44,27 +45,34 @@ class PostsController extends Controller
                 ->withErrors($validatedData)
                 ->withInput();
         } else {*/
-            $title = $_POST['title'];
-            $description = $_POST['description'];
-            $body = $_POST['body'];
+            $title = $request->post('title');
+            $description = $request->post('description');
+            $body = $request->post('body');
             $author = Auth::user()->name;
 
             Post::add($title, $description, $body, $author);
         //}
 
-        return redirect('/add');
+        return redirect(route('addPost'));
     }
 
-    public function edit() {
-        return view('posts.edit');
+    public function edit(Request $request, $id) {
+        $postData = Post::get($id);
+        return view('posts.edit', ['postData' => $postData]);
     }
 
-    public function editData() {
+    public function editData(Request $request, $id) {
+        $title = $request->post('title');
+        $description = $request->post('description');
+        $body = $request->post('body');
 
+        Post::edit($title, $description, $body, $id);
+
+        return redirect(route('showPost', $id));
     }
 
 
     public function test() {
-
+        return;
     }
 }

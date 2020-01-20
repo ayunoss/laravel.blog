@@ -12,18 +12,19 @@
         <div class="row">
 
             <div class="col-sm-8 blog-main">
-                <form action="/add" id="form" method="post" enctype="multipart/form-data" >
+                <form action="{{route('editData', ['postId' => $postData->id])}}" id="form" method="post" enctype="multipart/form-data">
+                    {{csrf_field()}}
                     <div class="form-group">
                         <label>Title</label>
-                        <input class="form-control" type="text" name="name">
+                        <input class="form-control" type="text" name="title" value="{{$postData->title}}">
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <input class="form-control" type="text" name="description">
+                        <input class="form-control" type="text" name="description" value="{{$postData->description}}">
                     </div>
                     <div class="form-group">
                         <label>Text</label>
-                        <textarea class="form-control" rows="3" name="text"></textarea>
+                        <textarea class="form-control" rows="3" name="body">{{$postData->body}}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Image</label>

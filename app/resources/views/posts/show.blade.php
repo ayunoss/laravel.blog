@@ -23,6 +23,8 @@
                     </div><!-- /.blog-post -->
 
                 <nav class="blog-pagination">
+                    <a href="{{route('editPost', ['postId' => $post->id])}}" role="button">Edit</a>
+                    <a href="#" role="button">Delete</a>
                 </nav>
 
             </div><!-- /.blog-main -->

@@ -15,7 +15,7 @@
             <div class="col-sm-8 blog-main">
             @foreach($posts as $post)
                 <div class="blog-post">
-                    <h2 class="blog-post-title"><a href="/posts/{{$post->id}}">{{$post->title}}</a></h2>
+                    <h2 class="blog-post-title"><a href="{{route('showPost', ['post' => $post->id])}}">{{$post->title}}</a></h2>
                     <p class="blog-post-meta">{{$post->created_at}} by {{$post->author}}</p>
 
                     <p>{{$post->description}}</p>
