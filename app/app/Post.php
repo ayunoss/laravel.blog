@@ -31,4 +31,20 @@ class Post extends Model {
                 'updated_at' => $now,
             ]);
     }
+
+    public static function findPosts ($from, $to) {
+        $posts = DB::table('posts')
+            ->whereBetween('created_at', [$from, $to]);
+    }
+
+    public static function archiveSection() {
+        $archives = DB::table('posts')
+            ->selectRaw('year(created_at) year, monthname(created_at) month, count(*) published
+          ')->groupBy('year', 'month')
+            ->orderByRaw('min(created_at) desc')
+            ->get()
+            ->toArray();
+        return $archives;
+    }
+
 }

@@ -6,20 +6,42 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Post;
+use Carbon\Carbon;
 
 class PostsController extends Controller
 {
     private $test;
 
-    public function index() {
-        $posts = Post::paginate(7);
-        return view('posts.index', ['posts' => $posts]);
+    public function index(Request $request) {
+        $posts = Post::latest();
+
+        $month = request('month');
+        $year = request('year');
+
+        if (isset($month) && isset($year)) {
+            $posts->whereMonth('created_at', Carbon::parse($month)->month);
+            $posts->whereYear('created_at', $year);
+        }
+
+        $posts = $posts->get();
+        $archives = Post::archiveSection();
+
+        /*$archives = Post::selectRaw('year(created_at) year, monthname(created_at) month, count(*) published
+          ')->groupBy('year', 'month')
+            ->orderByRaw('min(created_at) desc')
+            ->get()
+            ->toArray();*/
+
+        //$posts = Post::paginate(7);
+
+        return view('posts.index', ['posts' => $posts, 'archives' => $archives]);
 
     }
 
     public function show($id) {
         $post = Post::find($id);
-        return view('posts.show', compact('post'));
+        $archives = Post::archiveSection();
+        return view('posts.show', compact('post', 'archives'));
     }
 
     public function add() {
@@ -71,6 +93,9 @@ class PostsController extends Controller
         return redirect(route('showPost', $id));
     }
 
+    public function findPosts(){
+        //
+    }
 
     public function test() {
         return;
