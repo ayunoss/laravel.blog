@@ -23,7 +23,8 @@ class PostsController extends Controller
             $posts->whereYear('created_at', $year);
         }
 
-        $posts = $posts->get();
+        $posts = $posts->paginate(7);
+
         $archives = Post::archiveSection();
 
         /*$archives = Post::selectRaw('year(created_at) year, monthname(created_at) month, count(*) published
@@ -31,8 +32,6 @@ class PostsController extends Controller
             ->orderByRaw('min(created_at) desc')
             ->get()
             ->toArray();*/
-
-        //$posts = Post::paginate(7);
 
         return view('posts.index', ['posts' => $posts, 'archives' => $archives]);
 

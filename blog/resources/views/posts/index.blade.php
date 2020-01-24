@@ -24,13 +24,13 @@
                 </div><!-- /.blog-post -->
             @endforeach
                 <nav class="blog-pagination">
-                    {{--@if(!empty($posts) && $posts->count())
+                    @if(!empty($posts) && $posts->count())
                         {{$posts->links()}}
                     @else
                         <tr>
                             <td colspan="10">There are no data.</td>
                         </tr>
-                    @endif--}}
+                    @endif
                 </nav>
 
             </div><!-- /.blog-main -->
