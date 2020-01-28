@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ class PostsController extends Controller
     private $test;
 
     public function index(Request $request) {
+        /** @var Builder $posts */
         $posts = Post::latest();
 
         $month = request('month');
@@ -24,6 +26,7 @@ class PostsController extends Controller
         }
 
         $posts = $posts->paginate(7);
+        $posts->appends(request()->input());
 
         $archives = Post::archiveSection();
 

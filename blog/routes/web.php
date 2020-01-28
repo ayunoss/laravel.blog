@@ -1,5 +1,5 @@
 <?php
-Route::get('/', 'PostsController@index');
+Route::get('/', 'PostsController@index')->name('index');
 Route::get('/posts/{post}', 'PostsController@show')->name('showPost');
 Route::get('/add', 'PostsController@add')->name('addPost');
 Route::post('/add', 'PostsController@addData')->name('submitPost');
@@ -16,3 +16,4 @@ Route::post('/contact', 'FeedbackController@contact');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/change-language', 'LocalizationController@navPanel')->name('navPanel');

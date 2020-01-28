@@ -44,6 +44,7 @@ class Post extends Model {
             ->orderByRaw('min(created_at) desc')
             ->get()
             ->toArray();
+
         return $archives;
     }
 
