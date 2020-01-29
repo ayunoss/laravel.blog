@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 
 class LocalizationController extends Controller
 {
-
     public function navPanel(Request $request) {
-        $locale = $request->get('langselect');
+        $locale = $request->get('locale');
         $request->session()->put('locale', $locale);
-        return redirect(route('index'));
+        return redirect()->route('index');
     }
 }

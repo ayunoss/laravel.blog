@@ -16,4 +16,4 @@ Route::post('/contact', 'FeedbackController@contact');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/change-language', 'LocalizationController@navPanel')->name('navPanel');
+Route::get('/change-language', 'LocalizationController@navPanel')->name('navPanel');

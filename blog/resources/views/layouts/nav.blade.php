@@ -14,15 +14,17 @@
                 <a class="nav-link" id="auth" href="/home">{{ Auth::user()->name }}</a>
             @endguest
             <li class="nav-item dropdown">
-                <form method="post" action="{{route('navPanel')}}">
-                    {{ csrf_field() }}
-                    <select name="langselect">
-                        <option value="" selected="selected">select language</option>
-                        <option VALUE="ru"> Rus </option>
-                        <option VALUE="en"> Eng </option>
-                    </select>
-                    <input type="submit" value="Ok" />
-                </form>
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    {{ __('Choose language') }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('navPanel', ['locale' => 'ru']) }}">
+                        {{ __('Russian') }}
+                    </a>
+                    <a class="dropdown-item" href="{{ route('navPanel', ['locale' => 'en']) }}">
+                        {{ __('English') }}
+                    </a>
+                </div>
             </li>
         </nav>
     </div>
