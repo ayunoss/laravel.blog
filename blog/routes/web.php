@@ -6,11 +6,11 @@ Route::post('/add', 'PostsController@addData')->name('submitPost');
 Route::get('/edit/{postId}', 'PostsController@edit')->name('editPost');
 Route::post('/edit/{postId}', 'PostsController@editData')->name('editData');
 Route::get('/test', 'PostsController@test');
-Route::any('/add', 'PostsController@add')->name('postData');
+//Route::any('/add', 'PostsController@add');
 
 //Route::resource('posts', 'PostsController');
 
-Route::get('/contact', 'FeedbackController@index');
+Route::get('/contact', 'FeedbackController@index')->name('contact');
 Route::post('/contact', 'FeedbackController@contact');
 
 Auth::routes();
