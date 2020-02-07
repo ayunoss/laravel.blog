@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->text('description');
             $table->longText('body');
             $table->string('author');
+            $table->text('categories');
             $table->timestamps();
         });
     }

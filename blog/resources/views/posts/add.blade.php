@@ -37,6 +37,10 @@
                                 <label>Image</label>
                                 <input class="form-control" type="file" name="image">
                             </div>
+                            <div class="form-group">
+                                <label>Categories</label>
+                                <input class="form-control" type="text" name="tags">
+                            </div>
                             <button type="submit" class="btn btn-primary btn-block">Save</button>
                         </form>
                     </div>

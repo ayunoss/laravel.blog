@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class Post extends Model {
 
-    public static function add($title, $description, $body, $author) {
+    public static function add($title, $description, $body, $author, $categories) {
         $now = now();
         $result = DB::insert(
-            'insert into posts (title, description, body, author, created_at, updated_at) values (?, ?, ?, ?, ?, ?)',
-            [$title, $description, $body, $author, $now, $now]
+            'insert into posts (title, description, body, author, categories, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?)',
+            [$title, $description, $body, $author, $categories, $now, $now]
         );
     }
 
@@ -48,4 +48,7 @@ class Post extends Model {
         return $archives;
     }
 
+    /*public static function categories() {
+        $rhymes =
+    }*/
 }

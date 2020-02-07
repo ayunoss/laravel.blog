@@ -73,8 +73,9 @@ class PostsController extends Controller
             $description = $request->post('description');
             $body = $request->post('body');
             $author = Auth::user()->name;
+            $categories = $request->post('tags');
 
-            Post::add($title, $description, $body, $author);
+            Post::add($title, $description, $body, $author, $categories);
         //}
 
         return redirect(route('addPost'));
