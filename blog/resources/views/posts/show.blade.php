@@ -20,10 +20,15 @@
                         <p>{{$post->description}}</p>
                         <hr>
                         <p>{{$post->body}}</p>
+                        @foreach($categoriesOfPost as $category)
+                        <a href="#">
+                            {{$category}}
+                        </a>
+                        @endforeach
                     </div><!-- /.blog-post -->
 
                 <nav class="blog-pagination">
-                    <a href="{{route('editPost', ['postId' => $post->id])}}" role="button">Edit</a>
+                    <a href="{{ route('editPost', ['postId' => $post->id])}}" role="button">Edit</a>
                     <a href="#" role="button">Delete</a>
                 </nav>
 

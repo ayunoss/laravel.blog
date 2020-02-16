@@ -4,14 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Tag;
+
 
 class Post extends Model {
 
     public static function add($title, $description, $body, $author, $categories) {
         $now = now();
+        $tags_arr = Tag::tagsValidation($categories);
+        $tags = implode('|', $tags_arr);
+
         $result = DB::insert(
             'insert into posts (title, description, body, author, categories, created_at, updated_at) values (?, ?, ?, ?, ?, ?, ?)',
-            [$title, $description, $body, $author, $categories, $now, $now]
+            [$title, $description, $body, $author, $tags, $now, $now]
         );
     }
 
@@ -32,9 +37,9 @@ class Post extends Model {
             ]);
     }
 
-    public static function findPosts ($from, $to) {
-        $posts = DB::table('posts')
-            ->whereBetween('created_at', [$from, $to]);
+    public static function findPostsByTag () {
+        $tags = Tag::getTags();
+        return $tags;
     }
 
     public static function archiveSection() {
@@ -47,8 +52,4 @@ class Post extends Model {
 
         return $archives;
     }
-
-    /*public static function categories() {
-        $rhymes =
-    }*/
 }

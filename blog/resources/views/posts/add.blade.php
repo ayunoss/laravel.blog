@@ -28,8 +28,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Text</label>
-                                <textarea class="form-control" rows="3" name="body"></textarea>
-                                @error('body')
+                                <textarea class="form-control" rows="3" name="text"></textarea>
+                                @error('text')
                                 <div class = "alert alert-danger"> {{$message}} </div>
                                 @enderror
                             </div>
@@ -39,7 +39,10 @@
                             </div>
                             <div class="form-group">
                                 <label>Categories</label>
-                                <input class="form-control" type="text" name="tags">
+                                <input class="form-control" type="text" name="tags" title="Categories must be separated with commas">
+                                @error('tags')
+                                <div class = "alert alert-danger"> {{$message}} </div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Save</button>
                         </form>

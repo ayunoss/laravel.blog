@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Post;
 use Carbon\Carbon;
+use App\Tag;
 
 class PostsController extends Controller
 {
@@ -29,21 +30,19 @@ class PostsController extends Controller
         $posts->appends(request()->input());
 
         $archives = Post::archiveSection();
+        $categories = Tag::getTags();
 
-        /*$archives = Post::selectRaw('year(created_at) year, monthname(created_at) month, count(*) published
-          ')->groupBy('year', 'month')
-            ->orderByRaw('min(created_at) desc')
-            ->get()
-            ->toArray();*/
 
-        return view('posts.index', ['posts' => $posts, 'archives' => $archives]);
+        return view('posts.index', ['posts' => $posts, 'archives' => $archives, 'categories' => $categories]);
 
     }
 
     public function show($id) {
         $post = Post::find($id);
+        $categoriesOfPost = explode('|', $post['categories']);
         $archives = Post::archiveSection();
-        return view('posts.show', compact('post', 'archives'));
+        $categories = Tag::getTags();
+        return view('posts.show', compact('post', 'archives', 'categoriesOfPost','categories'));
     }
 
     public function add() {
@@ -61,7 +60,8 @@ class PostsController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|unique:posts|max:255',
             'description' => 'required',
-            'body' => 'required',
+            'text' => 'required',
+            'tags' => 'required',
         ]);
 
         /*if($validator->fails()) {
@@ -71,7 +71,7 @@ class PostsController extends Controller
         } else {*/
             $title = $request->post('title');
             $description = $request->post('description');
-            $body = $request->post('body');
+            $body = $request->post('text');
             $author = Auth::user()->name;
             $categories = $request->post('tags');
 
@@ -89,14 +89,14 @@ class PostsController extends Controller
     public function editData(Request $request, $id) {
         $title = $request->post('title');
         $description = $request->post('description');
-        $body = $request->post('body');
+        $body = $request->post('text');
 
         Post::edit($title, $description, $body, $id);
 
         return redirect(route('showPost', $id));
     }
 
-    public function findPosts(){
+    public function findPostsByTag(){
         //
     }
 
