@@ -16,20 +16,20 @@
         </ul>
     </ol>
 </div>
-<div class="sidebar-module">
-    <h4>Categories</h4>
-    <ol class="list-unstyled">
-        <ul>
-            @foreach ($categories as $category)
-                <li>
-                    <a href="/?category={{$category}}">
-                        {{ $category }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-    </ol>
-</div>
+{{--<div class="sidebar-module">--}}
+{{--    <h4>Categories</h4>--}}
+{{--    <ol class="list-unstyled">--}}
+{{--        <ul>--}}
+{{--            @foreach ($categories as $category)--}}
+{{--                <li>--}}
+{{--                    <a href="/?category={{$category}}">--}}
+{{--                        {{ $category }}--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endforeach--}}
+{{--        </ul>--}}
+{{--    </ol>--}}
+{{--</div>--}}
 <div class="sidebar-module">
     <h4>Elsewhere</h4>
     <ol class="list-unstyled">

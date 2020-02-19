@@ -20,9 +20,9 @@
                         <p>{{$post->description}}</p>
                         <hr>
                         <p>{{$post->body}}</p>
-                        @foreach($categoriesOfPost as $category)
+                        @foreach($tags as $tag)
                         <a href="#">
-                            {{$category}}
+                            #{{$tag}}
                         </a>
                         @endforeach
                     </div><!-- /.blog-post -->

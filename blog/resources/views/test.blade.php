@@ -1,1 +1,2 @@
-<?php var_dump($tags);
+<?php var_dump($tagsId);
+//var_dump($tagsName);

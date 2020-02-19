@@ -6,12 +6,45 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 
-class Tag extends Model
-{
+class Tag extends Model {
 
-    public static function tagsValidation($raw_data) {
-        //$data = explode(',', $raw_data);
-        $data = preg_split( '/(,| )/', $raw_data);
+    public static function addTags($data) {
+        $rawTags = self::tagsValidation($data); //получаю массив уникальных тэгов из формы
+        $ensureTags = self::getEnsureTagsByName($rawTags); //проверяю наличие таких тэгов в бд
+        $ensureTagsId = [];
+        $ensureTagsName = [];
+
+        foreach ($ensureTags as $tag) {
+            $ensureTagsId[] = $tag['id'];
+            $ensureTagsName[] = $tag['name'];
+        }
+
+        $newUniqueTags = array_diff($rawTags, $ensureTagsName);//получаю тэги которых в бд нет
+
+        foreach ($newUniqueTags as $tag) {
+            $newTagsToDB = DB::insert('insert into tags (name) values (?)', [$tag]);//добавляю новые тэги в бд
+        }
+
+        $newTagsId = [];
+
+        foreach ($newUniqueTags as $tag) {
+            $rawNewTagsId = DB::table('tags')
+                ->select('id')
+                ->where('name', $tag)
+                ->get()
+                ->toArray();//достаю id новых тэгов
+
+            foreach ($rawNewTagsId as $tagId) {
+                $newTagsId = array_merge($newTagsId, array_values(get_object_vars($tagId)));
+            }
+        }
+
+        return array_merge($ensureTagsId, $newTagsId);
+    }
+
+    private static function tagsValidation($raw_data) {
+        $data = explode(',', $raw_data);
+        //$data = preg_split( '/(,| )/', $raw_data);
         $raw_tags = [];
 
         foreach ($data as $tag) {
@@ -22,25 +55,21 @@ class Tag extends Model
         return $tags;
     }
 
-    public static function getTags() {
-
-        $postsCategories = DB::table('posts')->select('categories')
+    private static function getEnsureTagsByName($tagsNames) {
+        $rawTags = DB::table('tags')->select(['name','id'])
+                        ->whereIn('name', $tagsNames)
                         ->get()
                         ->toArray();
+        $tags = [];
 
-        $categories = [];
-
-        foreach ($postsCategories as $val) {
-            $categories = array_merge($categories, array_values(get_object_vars($val)));
+        foreach ($rawTags as $tag) {
+            $tags[] = get_object_vars($tag);
         }
 
-        $result = [];
+        return $tags;
+    }
 
-        foreach($categories as $category) {
-            $result = array_merge($result, explode('|', $category));
-            $result = array_unique($result);
-        }
+    public static function tagsSection() {
 
-        return $result;
     }
 }

@@ -12,6 +12,15 @@ use App\Tag;
 
 class PostsController extends Controller
 {
+
+    /** @var \App\Services\Post */
+    private $_postService;
+
+    public function __construct(\App\Services\Post $postService) {
+        parent::__construct();
+        $this->_postService = $postService;
+    }
+
     private $test;
 
     public function index(Request $request) {
@@ -30,29 +39,20 @@ class PostsController extends Controller
         $posts->appends(request()->input());
 
         $archives = Post::archiveSection();
-        $categories = Tag::getTags();
 
-
-        return view('posts.index', ['posts' => $posts, 'archives' => $archives, 'categories' => $categories]);
+        return view('posts.index', ['posts' => $posts, 'archives' => $archives]);
 
     }
 
     public function show($id) {
         $post = Post::find($id);
-        $categoriesOfPost = explode('|', $post['categories']);
+        $tags = Post::getTagsForPost($id);
         $archives = Post::archiveSection();
-        $categories = Tag::getTags();
-        return view('posts.show', compact('post', 'archives', 'categoriesOfPost','categories'));
+
+        return view('posts.show', compact('post', 'tags', 'archives'));
     }
 
     public function add() {
-        /*$input = $request->method();
-        if ($input == 'GET') {
-            return view('posts.add');
-        }
-        if ($input == 'POST') {
-            return 'It is working lalala';
-        }*/
         return view('posts.add');
     }
 
@@ -64,25 +64,17 @@ class PostsController extends Controller
             'tags' => 'required',
         ]);
 
-        /*if($validator->fails()) {
-            return redirect('/add')
-                ->withErrors($validatedData)
-                ->withInput();
-        } else {*/
-            $title = $request->post('title');
-            $description = $request->post('description');
-            $body = $request->post('text');
-            $author = Auth::user()->name;
-            $categories = $request->post('tags');
+        $title = $request->post('title');
+        $description = $request->post('description');
+        $body = $request->post('text');
+        $categories = $request->post('tags');
 
-            Post::add($title, $description, $body, $author, $categories);
-        //}
-
+        $this->_postService->addPost($title, $description, $body, $categories);
         return redirect(route('addPost'));
     }
 
     public function edit(Request $request, $id) {
-        $postData = Post::get($id);
+        $postData = Post::getPostData($id);
         return view('posts.edit', ['postData' => $postData]);
     }
 
@@ -94,13 +86,5 @@ class PostsController extends Controller
         Post::edit($title, $description, $body, $id);
 
         return redirect(route('showPost', $id));
-    }
-
-    public function findPostsByTag(){
-        //
-    }
-
-    public function test() {
-        return;
     }
 }
