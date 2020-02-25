@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Tag;
-
+use App\Comment;
 
 class Post extends Model {
 
@@ -37,7 +36,7 @@ class Post extends Model {
             ]);
     }
 
-    public static function archiveSection() {
+    public static function archives() {
         $archives = DB::table('posts')
             ->selectRaw('year(created_at) year, monthname(created_at) month, count(*) published
           ')->groupBy('year', 'month')
@@ -48,37 +47,20 @@ class Post extends Model {
         return $archives;
     }
 
-    public static function getTagsForPost($postId) {
-        $stdTagsId = DB::table('post_tag')
-            ->select('tag_id')
-            ->where('post_id', $postId)
-            ->get()
-            ->toArray();
-        $rawTagsId = [];
+    public function comments() {
+        //return $this->hasMany('App\Comment', 'post_id');
+        return $this->hasMany(Comment::class);
+    }
 
-        foreach ($stdTagsId as $val) {
-            $rawTagsId[] = get_object_vars($val);
-            $tagsId = [];
-            foreach ($rawTagsId as $rawTagId) {
-                $tagsId[] = $rawTagId['tag_id'];
-            }
-        }
+    public function addComment($body) {
+        $this->comments()->create(compact('body'));
+    }
 
-        $stdTagsNames = DB::table('tags')
-            ->select('name')
-            ->whereIn('id', $tagsId)
-            ->get()
-            ->toArray();
+    public function tags() {
+        return $this->belongsToMany(Tag::class);
+    }
 
-        $tagsNames = [];
-        foreach ($stdTagsNames as $val) {
-            $arrTagsNames[] = get_object_vars($val);
-            $tagsNames = [];
-            foreach ($arrTagsNames as $name) {
-                $tagsNames[] = $name['name'];
-            }
-        }
+    public function findPostsByTag() {
 
-        return $tagsNames;
     }
 }

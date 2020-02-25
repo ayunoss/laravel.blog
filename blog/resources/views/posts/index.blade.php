@@ -16,7 +16,7 @@
             @foreach($posts as $post)
                 <div class="blog-post">
                     <h2 class="blog-post-title"><a href="{{route('showPost', ['post' => $post->id])}}">{{$post->title}}</a></h2>
-                    <p class="blog-post-meta">{{$post->created_at}} by {{$post->author}}</p>
+                    <p class="blog-post-meta">{{ $post->created_at->toFormattedDateString() }} by {{$post->author}}</p>
 
                     <p>{{$post->description}}</p>
                     <hr>

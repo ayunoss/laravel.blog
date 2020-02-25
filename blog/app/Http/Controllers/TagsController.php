@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TagsController extends Controller
 {
-    public function index() {
+    public function index(Tag $tag) {
+        $posts = $tag->posts();
+        $posts = $posts->paginate(7);
+        $posts->appends(request()->input());
+        return view('posts.index', compact('posts'));
+    }
 
+    public function test() {
         $data = DB::table('post_tag')
             ->select('tag_id')
             ->where('post_id', '1')
@@ -40,9 +47,7 @@ class TagsController extends Controller
             }
         }
         return view('test', ['tagsId'=> $tagsNames]);
-    }
 
-    public function getTags() {
         //SELECT COUNT(tag_id) as tagsCount, b.name FROM post_tag INNER JOIN tags b ON b.id = post_tag.tag_id GROUP BY b.name ORDER BY tagsCount ASC
 
     }

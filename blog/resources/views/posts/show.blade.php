@@ -15,21 +15,57 @@
             <div class="col-sm-8 blog-main">
                     <div class="blog-post">
                         <h2 class="blog-post-title">{{$post->title}}</h2>
-                        <p class="blog-post-meta">{{$post->created_at}} by {{$post->author}}</p>
+                        <p class="blog-post-meta">{{ $post->created_at->toFormattedDateString() }} by {{$post->author}}</p>
 
                         <p>{{$post->description}}</p>
                         <hr>
                         <p>{{$post->body}}</p>
                         @foreach($tags as $tag)
-                        <a href="#">
+                        <a href="/posts/tags/{{$tag}}">
                             #{{$tag}}
                         </a>
                         @endforeach
+                        <hr>
+                        <p>
+                            <a href="{{ route('editPost', ['postId' => $post->id])}}" role="button">Edit</a>
+                            <a href="#" role="button">Delete</a>
+                        </p>
                     </div><!-- /.blog-post -->
 
+                <hr>
+                <div class="comments">
+                    <ul class="list-group">
+                        @foreach($post->comments as $comment)
+                            <li class="list-group-item">
+                                <strong> by user </strong>
+                                {{ $comment->created_at->diffForHumans() }}
+                                :
+                                {{ $comment->body }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <hr>
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" action="/posts/{{ $post->id }}/comments">
+                            {{csrf_field()}}
+                            <div class="form-group">
+                                <textarea name="body" placeholder="Your comment here" class="form-control" required></textarea>
+                                @error('body')
+                                <div class = "alert alert-danger"> {{$message}} </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Add comment</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
                 <nav class="blog-pagination">
-                    <a href="{{ route('editPost', ['postId' => $post->id])}}" role="button">Edit</a>
-                    <a href="#" role="button">Delete</a>
                 </nav>
 
             </div><!-- /.blog-main -->

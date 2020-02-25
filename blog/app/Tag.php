@@ -69,7 +69,45 @@ class Tag extends Model {
         return $tags;
     }
 
-    public static function tagsSection() {
+    public static function getTagsForPost($postId) {
+        $stdTagsId = DB::table('post_tag')
+            ->select('tag_id')
+            ->where('post_id', $postId)
+            ->get()
+            ->toArray();
+        $rawTagsId = [];
 
+        foreach ($stdTagsId as $val) {
+            $rawTagsId[] = get_object_vars($val);
+            $tagsId = [];
+            foreach ($rawTagsId as $rawTagId) {
+                $tagsId[] = $rawTagId['tag_id'];
+            }
+        }
+
+        $stdTagsNames = DB::table('tags')
+            ->select('name')
+            ->whereIn('id', $tagsId)
+            ->get()
+            ->toArray();
+
+        $tagsNames = [];
+        foreach ($stdTagsNames as $val) {
+            $arrTagsNames[] = get_object_vars($val);
+            $tagsNames = [];
+            foreach ($arrTagsNames as $name) {
+                $tagsNames[] = $name['name'];
+            }
+        }
+
+        return $tagsNames;
+    }
+
+    public function posts() {
+        return $this->belongsToMany(Post::class);
+    }
+
+    public function getRouteKeyName() {
+        return 'name';
     }
 }

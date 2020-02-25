@@ -5,10 +5,12 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/add', ['as' => 'submitPost', 'uses' => 'PostsController@addData']);
     Route::get('/edit/{postId}', ['as' => 'editPost', 'uses' => 'PostsController@edit']);
     Route::post('/edit/{postId}', ['as' => 'editData', 'uses' => 'PostsController@editData']);
+    Route::post('/posts/{post}/comments', ['as' => 'addComment', 'uses' => 'CommentsController@store']);
 });
+
 Route::get('/', 'PostsController@index')->name('index');
 Route::get('/posts/{post}', 'PostsController@show')->name('showPost');
-Route::get('/posts/{tag}', 'TagsController@index')->name('showByTag');
+Route::get('/posts/tags/{tag}', 'TagsController@index')->name('showByTag');
 
 //Route::get('/add', 'PostsController@add')->name('addPost');
 //Route::post('/add', 'PostsController@addData')->name('submitPost');

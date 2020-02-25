@@ -38,18 +38,15 @@ class PostsController extends Controller
         $posts = $posts->paginate(7);
         $posts->appends(request()->input());
 
-        $archives = Post::archiveSection();
-
-        return view('posts.index', ['posts' => $posts, 'archives' => $archives]);
+        return view('posts.index', ['posts' => $posts]);
 
     }
 
     public function show($id) {
         $post = Post::find($id);
-        $tags = Post::getTagsForPost($id);
-        $archives = Post::archiveSection();
+        $tags = Tag::getTagsForPost($id);
 
-        return view('posts.show', compact('post', 'tags', 'archives'));
+        return view('posts.show', compact('post', 'tags'));
     }
 
     public function add() {
@@ -87,4 +84,6 @@ class PostsController extends Controller
 
         return redirect(route('showPost', $id));
     }
+
+
 }
