@@ -6,6 +6,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/edit/{postId}', ['as' => 'editPost', 'uses' => 'PostsController@edit']);
     Route::post('/edit/{postId}', ['as' => 'editData', 'uses' => 'PostsController@editData']);
     Route::post('/posts/{post}/comments', ['as' => 'addComment', 'uses' => 'CommentsController@store']);
+    Route::post('/posts/{post}/comments_reply', ['as' => 'replyToComment', 'uses' => 'CommentsController@reply']);
 });
 
 Route::get('/', 'PostsController@index')->name('index');

@@ -16,10 +16,16 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('post_id');
-            //$table->integer('user_id');
+            $table->integer('user_id');
             $table->string('body');
             $table->timestamps();
         });
+
+//        Schema::create('reply_comment', function (Blueprint $table) {
+//            $table->integer('comment_id');
+//            $table->integer('reply_id');
+//            $table->primary(['comment_id','reply_id']);
+//        });
     }
 
     /**
@@ -30,5 +36,6 @@ class CreateCommentsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('comments');
+//        Schema::dropIfExists('reply_comment');
     }
 }

@@ -37,10 +37,7 @@
                     <ul class="list-group">
                         @foreach($post->comments as $comment)
                             <li class="list-group-item">
-                                <strong> by user </strong>
-                                {{ $comment->created_at->diffForHumans() }}
-                                :
-                                {{ $comment->body }}
+                                <div class="comment-{{$comment->id}}"><strong>by {{ $comment->user->name }}</strong> on {{ $comment->created_at }} : {{ $comment->body }}</div><a href="" role="button" class="reply-button" data-id="{{$comment->id}}">Reply</a>
                             </li>
                         @endforeach
                     </ul>
@@ -52,7 +49,7 @@
                         <form method="post" action="/posts/{{ $post->id }}/comments">
                             {{csrf_field()}}
                             <div class="form-group">
-                                <textarea name="body" placeholder="Your comment here" class="form-control" required></textarea>
+                                <textarea name="body" id="textarea-body" placeholder="Your comment here" class="form-control" required></textarea>
                                 @error('body')
                                 <div class = "alert alert-danger"> {{$message}} </div>
                                 @enderror
@@ -77,4 +74,15 @@
         </div><!-- /.row -->
 
     </div><!-- /.container -->
+    <script>
+        $(document).ready(function () {
+            $(".reply-button").on("click", function (event) {
+                event.preventDefault();
+                var target = $(event.target);
+                var id = target.data("id");
+                var text = $(".comment-" + id).text();
+                $("#textarea-body").val('"' + text + '"');
+            });
+        });
+    </script>
     @endsection

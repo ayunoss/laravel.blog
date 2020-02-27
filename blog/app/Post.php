@@ -47,13 +47,21 @@ class Post extends Model {
         return $archives;
     }
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public function comments() {
         //return $this->hasMany('App\Comment', 'post_id');
         return $this->hasMany(Comment::class);
     }
 
     public function addComment($body) {
-        $this->comments()->create(compact('body'));
+        $user_id = auth()->id();
+        $this->comments()->create([
+            'user_id' => $user_id,
+            'body' => $body,
+            ]);
     }
 
     public function tags() {
