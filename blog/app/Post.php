@@ -36,6 +36,12 @@ class Post extends Model {
             ]);
     }
 
+    public static function validatePostRemoval($id) {
+        $post = Post::find($id);
+        $username = $post->author;
+
+    }
+
     public static function archives() {
         $archives = DB::table('posts')
             ->selectRaw('year(created_at) year, monthname(created_at) month, count(*) published

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -45,7 +46,7 @@ class PostsController extends Controller
     public function show($id) {
         $post = Post::find($id);
         $tags = Tag::getTagsForPost($id);
-
+        //var_dump($archives);
         return view('posts.show', compact('post', 'tags'));
     }
 
@@ -85,5 +86,18 @@ class PostsController extends Controller
         return redirect(route('showPost', $id));
     }
 
+    public function delete(Request $request, $id) {
+        $post = Post::find($id);
+        $author = $post->author;
+        $authorized_user = Auth::user()->name;
+        if ($author === $authorized_user) {
+            $post->comments()->delete();
+            $post->tags()->detach();
+            Post::destroy($id);
+            return redirect(route('index'));
+        } else {
+            redirect(route('index'));
+        }
+    }
 
 }

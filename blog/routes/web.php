@@ -5,8 +5,17 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/add', ['as' => 'submitPost', 'uses' => 'PostsController@addData']);
     Route::get('/edit/{postId}', ['as' => 'editPost', 'uses' => 'PostsController@edit']);
     Route::post('/edit/{postId}', ['as' => 'editData', 'uses' => 'PostsController@editData']);
+    Route::get('/delete/{postId}', ['as' => 'deletePost', 'uses' => 'PostsController@delete']);
     Route::post('/posts/{post}/comments', ['as' => 'addComment', 'uses' => 'CommentsController@store']);
     Route::post('/posts/{post}/comments_reply', ['as' => 'replyToComment', 'uses' => 'CommentsController@reply']);
+    Route::post('/posts/{post}/delete_comment', ['as' => 'deleteComment', 'uses' => 'CommentsController@delete']);
+    Route::get('/upload_avatar', ['as' => 'avatarForm', 'uses' => 'HomeController@uploadAvatar']);
+    Route::post('/upload_avatar', ['as' => 'addAvatar', 'uses' => 'HomeController@addAvatar']);
+    Route::get('/home/upload_userinfo', ['as' => 'infoForm', 'uses' => 'HomeController@uploadInfo']);
+    Route::post('/home/upload_userinfo', ['as' => 'addInfo', 'uses' => 'HomeController@addInfo']);
+    Route::get('/home/edit_userinfo', ['as' => 'infoFormEdit', 'uses' => 'HomeController@editInfoForm']);
+    Route::post('/home/edit_userinfo', ['as' => 'editInfo', 'uses' => 'HomeController@editInfo']);
+    Route::get('/delete_avatar', ['as' => 'deleteAvatar', 'uses' => 'HomeController@deleteAvatar']);
 });
 
 Route::get('/', 'PostsController@index')->name('index');

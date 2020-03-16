@@ -27,8 +27,8 @@
                         @endforeach
                         <hr>
                         <p>
-                            <a href="{{ route('editPost', ['postId' => $post->id])}}" role="button">Edit</a>
-                            <a href="#" role="button">Delete</a>
+                            <a href="{{ route('editPost', ['postId' => $post->id]) }}" role="button">Edit</a>
+                            <a href="{{ route('deletePost', ['postId' => $post->id]) }}" role="button">Delete</a>
                         </p>
                     </div><!-- /.blog-post -->
 
