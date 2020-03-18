@@ -14,7 +14,9 @@
     {{--<link href="/css/blog.css" rel="stylesheet">--}}
 
     <!-- Scripts -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/sidebar.js') }}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <!-- Fonts -->
@@ -22,15 +24,15 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    {{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
+    <link href="{{ asset('css/style2.css') }}" rel="stylesheet">
 </head>
 
 <body>
+    <div id="content">
+        @include('layouts.nav')
 
-@include('layouts.nav')
-
-@yield('content')
-
-@include('layouts.footer')
+        @yield('content')
+        @include('layouts.footer')
+    </div>
 </body>
 </html>

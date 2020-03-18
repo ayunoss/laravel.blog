@@ -1,17 +1,16 @@
 @extends('layout')
 
 @section('content')
+
     <div class="blog-header">
         <div class="container">
             <h1 class="blog-title">The Blog</h1>
-            <p class="lead blog-description">An example blog template built with Bootstrap.</p>
+            <p class="lead blog-description">An example blog template by ayunoss.</p>
         </div>
     </div>
 
     <div class="container">
-
         <div class="row">
-
             <div class="col-sm-8 blog-main">
             @foreach($posts as $post)
                 <div class="blog-post">
@@ -32,11 +31,11 @@
                         </tr>
                     @endif
                 </nav>
-
             </div><!-- /.blog-main -->
-
-            <div class="col-sm-3 offset-sm-1 blog-sidebar">
-                @include('layouts.sidebar')
+            <div class="sidebar">
+            @include('layouts.nav')
+            </div>
+            @include('layouts.sidebar')
                 {{--<div class="sidebar-module sidebar-module-inset">
                     <h4>About</h4>
                     <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
@@ -63,9 +62,7 @@
                         <li><a href="#">Instagram</a></li>
                     </ol>
                 </div>--}}
-            </div><!-- /.blog-sidebar -->
 
         </div><!-- /.row -->
-
     </div><!-- /.container -->
 @endsection

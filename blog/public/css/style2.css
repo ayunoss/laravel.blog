@@ -1,0 +1,76 @@
+body {
+    background-image: url("/storage/trees.jpg");
+    background-position: 0 0;
+    background-repeat: repeat;
+    overflow-x: hidden;
+}
+.nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background: #284257;
+    opacity: .9;
+    overflow-x: hidden;
+    padding-top: 30px;
+    transition: all .7s;
+
+}
+.nav ul.nav-ul {
+    list-style: none;
+}
+.nav ul a {
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 40px;
+    font-size: 25px;
+    color: #ccc;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    transition: all .5s;
+}
+ul.nav-ul li.nav-li:hover a {
+    padding-left: 50px;
+    color: white;
+    transition: .4s;
+}
+.nav .close {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    margin-left: 50px;
+    font-size: 30px;
+    color: #ccc;
+}
+.slide a {
+    color: #284257;
+    font-size: 30px;
+    padding: -30px;
+}
+/*.fa-bars {*/
+/*    left: 40px;*/
+/*    top: 25px;*/
+/*    font-size: 35px;*/
+/*    color: white;*/
+/*    padding: 6px 10px;*/
+/*    transition: all .5s;*/
+/*}*/
+/*.fa-times {*/
+/*    z-index: 1111;*/
+/*    left: -195px;*/
+/*    top: 15px;*/
+/*    font-size: 30px;*/
+/*    color: white;*/
+/*    padding: 3px 8px;*/
+/*    transition: all .5s ease;*/
+/*}*/
+#content {
+    transition: margin-left .7s;
+    overflow: hidden;
+    width: 100%;
+}
+
